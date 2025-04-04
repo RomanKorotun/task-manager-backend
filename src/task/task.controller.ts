@@ -7,6 +7,7 @@ import {
   ParseIntPipe,
   Post,
   Put,
+  Query,
 } from '@nestjs/common';
 import { CreateTaskService } from './task-services/create-task.service.js';
 import { CreateTaskDto } from './task-dto/create-task.dto.js';
@@ -14,6 +15,7 @@ import { UpdateTaskService } from './task-services/update-task.service.js';
 import { UpdateTaskDto } from './task-dto/update-task.dto.js';
 import { FindAllTasksService } from './task-services/find-all-task.service.js';
 import { DeleteTaskService } from './task-services/delete-task.service.js';
+import { TaskQueryDto } from './task-dto/task-query.dto.js';
 
 @Controller('tasks')
 export class TaskController {
@@ -38,8 +40,8 @@ export class TaskController {
   }
 
   @Get()
-  async findAllTasks() {
-    return await this.findAllTasksService.findAllTasks();
+  async findAllTasks(@Query() query: TaskQueryDto) {
+    return await this.findAllTasksService.findAllTasks(query);
   }
 
   @Delete(':id')
