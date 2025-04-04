@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   ParseIntPipe,
@@ -11,14 +12,16 @@ import { CreateTaskService } from './task-services/create-task.service.js';
 import { CreateTaskDto } from './task-dto/create-task.dto.js';
 import { UpdateTaskService } from './task-services/update-task.service.js';
 import { UpdateTaskDto } from './task-dto/update-task.dto.js';
-import { FindAllTasks } from './task-services/find-all-task.service.js';
+import { FindAllTasksService } from './task-services/find-all-task.service.js';
+import { DeleteTaskService } from './task-services/delete-task.service.js';
 
 @Controller('tasks')
 export class TaskController {
   constructor(
     private readonly createTaskService: CreateTaskService,
     private readonly updateTaskService: UpdateTaskService,
-    private readonly findAllTasksService: FindAllTasks,
+    private readonly findAllTasksService: FindAllTasksService,
+    private readonly deleteTaskService: DeleteTaskService,
   ) {}
 
   @Post()
@@ -37,5 +40,10 @@ export class TaskController {
   @Get()
   async findAllTasks() {
     return await this.findAllTasksService.findAllTasks();
+  }
+
+  @Delete(':id')
+  async deleteTask(@Param('id', ParseIntPipe) id: number) {
+    return this.deleteTaskService.deleteTask(id);
   }
 }
